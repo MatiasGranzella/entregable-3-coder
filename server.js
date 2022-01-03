@@ -1,21 +1,20 @@
-const cont = require('./class_conteiner.js')
+const { Conteiner } = require("./class_conteiner.js");
 const express = require("express");
 const app = express();
 
-const PORT = 8080
 
-let new_conteiner = new cont.Conteiner("./src/courses.txt");
+const new_conteiner = new Conteiner("./src/courses.txt");
 new_conteiner.readFile();
 let courses = new_conteiner.getAll();
 
-const server = app.listen(PORT, () => {
-    console.log(`Servidor http escuchando en el puerto ${server.address().port}`)
+const server = app.listen(process.env.PORT, () => {
+    console.log(`Http server listening in port ${server.address().port}`)
 })
-server.on("error", error => console.log(`Error en servidor ${error}`))
+server.on("error", error => console.log(`Server Error ${error}`))
 
 
 app.get('/', (req, res) => {
-  res.send("Debe cambiar de ruta a : \n -/prodcutos o /productosRandom")
+  res.send("Need to change route to : \n -/courses o /courseRandom")
 })
 
 
@@ -28,4 +27,3 @@ app.get('/courseRandom', (req, res) => {
   let random_course = courses[Math.floor(Math.random()*courses.length)];
   res.send(random_course)
 })
-
